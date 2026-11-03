@@ -6,7 +6,7 @@ const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const authRoutes = require("./routes/auth");
+const authRoutes = require("./Routes/auth");
 
 app.disable("x-powered-by");
 
