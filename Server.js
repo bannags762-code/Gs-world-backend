@@ -6,7 +6,8 @@ const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Basic security and middleware
+const authRoutes = require("./routes/auth");
+
 app.disable("x-powered-by");
 
 app.use(cors({
@@ -15,26 +16,25 @@ app.use(cors({
 
 app.use(express.json({ limit: "1mb" }));
 
-// Home route
 app.get("/", (req, res) => {
   res.json({
     success: true,
     name: "GS WORLD",
     tagline: "Discover the Unknown.",
-    message: "GS WORLD Backend is running!"
+    message: "Backend is running!"
   });
 });
 
-// Health check
 app.get("/api/health", (req, res) => {
-  res.status(200).json({
+  res.json({
     success: true,
-    status: "online",
-    service: "GS WORLD Backend"
+    status: "online"
   });
 });
 
-// 404 handler
+// Login and Register APIs
+app.use("/api/auth", authRoutes);
+
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -42,7 +42,6 @@ app.use((req, res) => {
   });
 });
 
-// Error handler
 app.use((err, req, res, next) => {
   console.error(err.message);
 
@@ -52,7 +51,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start server
 app.listen(PORT, () => {
-  console.log(`GS WORLD Backend running on port ${PORT}`);
+  console.log(`GS WORLD running on port ${PORT}`);
 });
